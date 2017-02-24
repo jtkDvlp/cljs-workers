@@ -59,3 +59,19 @@
      (catch js/Object e
        (when fun
          (fun {:state :error, :error e}))))))
+
+(defn do-with-pool!
+  ([pool request]
+   (do-with-pool! pool request nil))
+
+  ([pool {:keys [handler arguments transfer] :as request} fun]
+   (go
+     (let [worker
+           (<! pool)
+
+           fun
+           (fn [response]
+             (go (>! pool worker))
+             (when fun (fun response)))]
+
+       (do-with-worker! worker request fun)))))
