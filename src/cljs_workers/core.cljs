@@ -46,3 +46,16 @@
   (-> (.-data event)
       (js->clj :keywordize-keys true)))
 
+(defn do-with-worker!
+  ([worker request]
+   (do-with-worker! worker request nil))
+
+  ([worker {:keys [handler arguments transfer] :as request} fun]
+   (when fun
+     (->> (comp fun handle-response!)
+          (aset worker "onmessage")))
+   (try
+     (do-request! worker request)
+     (catch js/Object e
+       (when fun
+         (fun {:state :error, :error e}))))))
