@@ -17,17 +17,19 @@
           (handler arguments)
 
           message
-          (merge result {:state :success})
+          (-> result
+              (merge {:state :success})
+              clj->js)
 
           transfer
-          (->> (:transfer message)
+          (->> (:transfer result)
                (map keyword)
-               (select-keys message)
+               (select-keys result)
                vals)]
 
       (if (seq transfer)
-        (.postMessage js/self (clj->js message) (clj->js transfer))
-        (.postMessage js/self (clj->js message))))
+        (.postMessage js/self message (clj->js transfer))
+        (.postMessage js/self message)))
 
     (catch js/Object e
       (->> {:state :error, :message (.toString e)}

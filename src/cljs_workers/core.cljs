@@ -25,3 +25,24 @@
        (dotimes [_ count]
          (>! workers (create-one script))))
      workers)))
+
+(defn- do-request!
+  [worker {:keys [handler arguments transfer] :as request}]
+  (let [message
+        (-> {:handler handler, :arguments arguments}
+            clj->js)
+
+        transfer
+        (->> transfer
+             (select-keys arguments)
+             vals)]
+
+    (if (seq transfer)
+      (.postMessage worker message (clj->js transfer))
+      (.postMessage worker message))))
+
+(defn- handle-response!
+  [event]
+  (-> (.-data event)
+      (js->clj :keywordize-keys true)))
+
