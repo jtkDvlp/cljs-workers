@@ -13,17 +13,22 @@
     (let [handler
           (@handlers handler)
 
+          result
+          (handler arguments)
+
           message
-          (-> (handler arguments)
-              (merge {:state :success}))
+          (merge result {:state :success})
 
           transfer
           (->> (:transfer message)
-               (map keyword))]
+               (map keyword)
+               (select-keys message)
+               vals)]
 
       (if (seq transfer)
-        (.postMessage js/self (clj->js message) (clj->js (vals (select-keys message transfer))))
+        (.postMessage js/self (clj->js message) (clj->js transfer))
         (.postMessage js/self (clj->js message))))
+
     (catch js/Object e
       (->> {:state :error, :message (.toString e)}
            clj->js
