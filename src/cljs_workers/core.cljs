@@ -8,7 +8,7 @@
       undefined?
       not))
 
-(defn create-worker
+(defn create-one
   [script]
   (js/Worker. script))
 
@@ -23,5 +23,5 @@
    (let [workers (chan count)]
      (go
        (dotimes [_ count]
-         (>! workers (create-worker script))))
+         (>! workers (create-one script))))
      workers)))
