@@ -1,0 +1,3 @@
+# Web workers for clojurescript
+
+...will follow...
