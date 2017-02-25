@@ -4,9 +4,19 @@
 
 (defn supported?
   []
-  (-> js/Worker
+  (-> js/self
+      .-Worker
       undefined?
       not))
+
+(defn worker?
+  []
+  (-> js/self
+      .-document
+      undefined?))
+
+(def main?
+  (complement worker?))
 
 (defn create-one
   [script]

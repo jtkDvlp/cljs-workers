@@ -38,6 +38,7 @@
 
 (defn- handle-request!
   [event]
+
   (let [data
         (.-data event)
 
@@ -49,4 +50,6 @@
 
     (do-respond! handler arguments)))
 
-(aset js/self "onmessage" handle-request!)
+(defn bootstrap
+  []
+  (aset js/self "onmessage" handle-request!))
