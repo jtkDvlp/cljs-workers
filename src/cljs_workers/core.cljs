@@ -14,10 +14,10 @@
 
 (defn create-pool
   ([]
-   (pool 5))
+   (create-pool 5))
 
   ([count]
-   (pool count "js/compiled/workers.js"))
+   (create-pool count "js/compiled/workers.js"))
 
   ([count script]
    (let [workers (chan count)]
