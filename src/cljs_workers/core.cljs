@@ -1,5 +1,5 @@
 (ns cljs-workers.core
-  (:require [cljs.core.async :refer [chan]])
+  (:require [cljs.core.async :refer [chan promise-chan <! >! put!]])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
 (defn supported?
@@ -31,9 +31,8 @@
 
   ([count script]
    (let [workers (chan count)]
-     (go
-       (dotimes [_ count]
-         (>! workers (create-one script))))
+     (dotimes [_ count]
+       (put! workers (create-one script)))
      workers)))
 
 (defn- do-request!
@@ -57,31 +56,37 @@
       (js->clj :keywordize-keys true)))
 
 (defn do-with-worker!
-  ([worker request]
-   (do-with-worker! worker request nil))
+  [worker {:keys [handler arguments transfer] :as request}]
+  (let [result
+        (promise-chan)
 
-  ([worker {:keys [handler arguments transfer] :as request} fun]
-   (when fun
-     (->> (comp fun handle-response!)
-          (aset worker "onmessage")))
-   (try
-     (do-request! worker request)
-     (catch js/Object e
-       (when fun
-         (fun {:state :error, :error e}))))))
+        put-result!
+        (partial put! result)]
+
+    (->> (comp put-result! handle-response!)
+         (aset worker "onmessage"))
+
+    (try
+      (do-request! worker request)
+      (catch js/Object e
+        (put! result {:state :error, :error e})))
+
+    result))
 
 (defn do-with-pool!
-  ([pool request]
-   (do-with-pool! pool request nil))
+  [pool {:keys [handler arguments transfer] :as request}]
+  (let [result* (promise-chan)]
+    (go
+      (let [worker
+            (<! pool)
 
-  ([pool {:keys [handler arguments transfer] :as request} fun]
-   (go
-     (let [worker
-           (<! pool)
+            result-chan
+            (do-with-worker! worker request)
 
-           fun
-           (fn [response]
-             (go (>! pool worker))
-             (when fun (fun response)))]
+            result
+            (<! result-chan)]
 
-       (do-with-worker! worker request fun)))))
+        (>! pool worker)
+        (>! result* result)))
+
+    result*))
