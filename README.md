@@ -14,9 +14,19 @@ Add the following dependency to your `project.cljs`:<br>
 
 ### Usage
 
-To understand web workers itself see the [web worker api](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers). Or see the following quick guide.
+To understand web workers itself see the [web worker api](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers). Or see the quick guide.
 
 ...will follow...
+
+#### Quick guide
+
+Workers have their own context, not the global window context. So there is no document / DOM and some other things are also not present.
+
+To handle data between these two contexts you have to copy or [transfer](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Transferring_data_to_and_from_workers_further_details) your objects. Consider, you can copy simple structured objects and transfer [transferables](https://developer.mozilla.org/en-US/docs/Web/API/Transferable), everything else will cause an error. But don´t be worried, most the time that´s no problem.
+
+...will follow...
+
+For full documentation see the [web worker api](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers).
 
 ## Appendix
 
