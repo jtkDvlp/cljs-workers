@@ -25,10 +25,10 @@ The following example handling both the browser and the worker within one script
             [cljs-workers.worker :as worker])
   (:require-macros [cljs.core.async.macros :refer [go]]))
 
-;; Setup the browser path (cause handling both in one file)
+;; Setup the browser path (handling both in one file)
 (defn app
   []
-  (let [;; you can create one worker or a pool (asyn channel of workers)
+  (let [;; you can create one worker or a pool (async channel of workers)
         worker-pool
         (main/create-pool 2 "js/worker/worker.js")
 
@@ -50,7 +50,7 @@ The following example handling both the browser and the worker within one script
     ;; Copy the simple values and transfer the ArrayBuffer, but transfer mirroring (worker thread) will fail cause the wrong value and the wrong type is marked to do so
     (print-result (main/do-with-pool! worker-pool {:handler :mirror, :arguments {:a "Hallo" :b "Welt" :c 10 :d (js/ArrayBuffer. 10) :transfer [:c]} :transfer [:d]}))))
 
-;; Setup the worker path (cause handling both in one file)
+;; Setup the worker path (handling both in one file)
 (defn worker
   []
   (worker/register
