@@ -1,4 +1,4 @@
-(defproject cljs-workers "1.1.0-alpha"
+(defproject cljs-workers "1.1.1-alpha"
   :description "A clojurescript lib for performing async tasks via web workers"
   :url "https://github.com/jtkDvlp/cljs-workers"
   :license {:name "MIT"}
