@@ -32,6 +32,8 @@
         (.postMessage js/self message)))
 
     (catch js/Object e
+      (when-let [c js/console]
+        (.error c e))
       (->> {:state :error, :message (.toString e)}
            clj->js
            (.postMessage js/self)))))
@@ -56,6 +58,8 @@
         (do-respond! result)))
 
     (catch js/Object e
+      (when-let [c js/console]
+        (.error c e))
       (->> {:state :error, :message (.toString e)}
            clj->js
            (.postMessage js/self)))))
