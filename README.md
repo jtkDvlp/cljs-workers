@@ -70,7 +70,7 @@ The following example handling both the browser and the worker within one script
 
 Workers have their own context, not the global window context. So there is no document / DOM and some other things are also not present.
 
-To handle data between these two contexts you have to copy or [transfer](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Transferring_data_to_and_from_workers_further_details) your objects. Consider, you can copy values handled by the [structured clone algorithm](https://developer.mozilla.org/de/docs/Web/API/Web_Workers_API/Structured_clone_algorithm) and transfer [transferables](https://developer.mozilla.org/en-US/docs/Web/API/Transferable), everything else will cause an error. But don´t be worried, most the time that´s no problem.
+[To handle data](https://developer.mozilla.org/de/docs/Web/API/Worker/postMessage) between these two contexts you have to copy or [transfer](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers#Transferring_data_to_and_from_workers_further_details) your values / objects. Consider, you can copy values / objects handled by the [structured clone algorithm](https://developer.mozilla.org/de/docs/Web/API/Web_Workers_API/Structured_clone_algorithm) and transfer [transferables](https://developer.mozilla.org/en-US/docs/Web/API/Transferable), everything else will cause an error. But don´t be worried, most the time that´s no problem.
 
 Since there are two contexts, you have to provide two script threads / procedures. You can handle this by providing two script files or you can also provide one file handling both. When using the second way pay attention on what you get with the current context (workers have no DOM).
 
