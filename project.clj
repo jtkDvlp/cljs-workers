@@ -35,4 +35,4 @@
                 :asset-path "js/worker/out"
                 :output-to "resources/public/js/worker/worker.js"
                 :output-dir "resources/public/js/worker/out"
-                :optimizations :simple}}]})
+                :optimizations :advanced}}]})

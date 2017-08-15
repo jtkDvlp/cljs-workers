@@ -45,10 +45,10 @@
           (.-data event)
 
           handler
-          (@handlers (keyword (.-handler data)))
+          (@handlers (keyword (aget data "handler")))
 
           arguments
-          (js->clj (.-arguments data) :keywordize-keys true)
+          (js->clj (aget data "arguments") :keywordize-keys true)
 
           result
           (handler arguments)]
