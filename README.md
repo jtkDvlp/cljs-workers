@@ -1,5 +1,6 @@
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jtkDvlp/cljs-workers/blob/master/LICENSE)
 [![Clojars Project](https://img.shields.io/clojars/v/cljs-workers.svg)](https://clojars.org/cljs-workers)
+[![cljdoc badge](https://cljdoc.org/badge/cljs-workers/cljs-workers)](https://cljdoc.org/d/cljs-workers/cljs-workers/CURRENT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jtkDvlp/cljs-workers/blob/master/LICENSE)
 
 # Web workers for clojurescript
 
