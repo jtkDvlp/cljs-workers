@@ -1,24 +1,42 @@
-(defproject cljs-workers "1.1.2"
-  :description "A clojurescript lib for performing async tasks via web workers"
-  :url "https://github.com/jtkDvlp/cljs-workers"
-  :license {:name "MIT"}
-  :dependencies [[org.clojure/clojure "1.8.0"]
-                 [org.clojure/clojurescript "1.9.229"]]
+(defproject jtk-dvlp/cljs-workers "1.1.2"
+  :description
+  "A clojurescript lib for performing async tasks via web workers"
 
-  :min-lein-version "2.5.3"
+  :url
+  "https://github.com/jtkDvlp/cljs-workers"
 
-  :source-paths ["src"]
-  :test-paths ["test"]
+  :license
+  {:name "MIT"}
 
-  :clean-targets ^{:protect false} ["resources/public/js" "target"]
+  :min-lein-version
+  "2.5.3"
 
-  :plugins [[lein-cljsbuild "1.1.4" :exclusions [[org.clojure/clojure]]]
-            [lein-figwheel "0.5.0-1"]]
+  :source-paths
+  ["src"]
 
-  :profiles {:dev {:dependencies [[figwheel-sidecar "0.5.8"]
-                                  [com.cemerick/piggieback "0.2.1"]]}}
+  :clean-targets
+  ^{:protect false}
+  ["resources/public/js"
+   "target"]
 
-  :repl-options {:nrepl-middleware [cemerick.piggieback/wrap-cljs-repl]}
+  :plugins
+  [[lein-cljsbuild "1.1.4" :exclusions [[org.clojure/clojure]]]
+   [lein-figwheel "0.5.0-1"]]
+
+  :profiles
+  {:provided
+   {:dependencies
+    [[org.clojure/clojure "1.8.0"]
+     [org.clojure/clojurescript "1.9.229"]]}
+
+   :dev
+   {:dependencies
+    [[figwheel-sidecar "0.5.8"]
+     [com.cemerick/piggieback "0.2.1"]]}}
+
+  :repl-options
+  {:nrepl-middleware
+   [cemerick.piggieback/wrap-cljs-repl]}
 
   :cljsbuild
   {:builds

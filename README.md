@@ -1,5 +1,5 @@
-[![Clojars Project](https://img.shields.io/clojars/v/cljs-workers.svg)](https://clojars.org/cljs-workers)
-[![cljdoc badge](https://cljdoc.org/badge/cljs-workers/cljs-workers)](https://cljdoc.org/d/cljs-workers/cljs-workers/CURRENT)
+[![Clojars Project](https://img.shields.io/clojars/v/jtk-dvlp/cljs-workers.svg)](https://clojars.org/jtk-dvlp/cljs-workers)
+[![cljdoc badge](https://cljdoc.org/badge/jtk-dvlp/cljs-workers)](https://cljdoc.org/d/jtk-dvlp/cljs-workers/CURRENT)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jtkDvlp/cljs-workers/blob/master/LICENSE)
 
 # Web workers for clojurescript
@@ -11,7 +11,7 @@ This [clojurescript](https://clojurescript.org/) library wraps the [web worker a
 ### Get it / add dependency
 
 Add the following dependency to your `project.cljs`:<br>
-[![Clojars Project](https://img.shields.io/clojars/v/cljs-workers.svg)](https://clojars.org/cljs-workers)
+[![Clojars Project](https://img.shields.io/clojars/v/jtk-dvlp/cljs-workers.svg)](https://clojars.org/jtk-dvlp/cljs-workers)
 
 ### Usage
 
