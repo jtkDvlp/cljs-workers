@@ -1,6 +1,7 @@
 [![Clojars Project](https://img.shields.io/clojars/v/jtk-dvlp/cljs-workers.svg)](https://clojars.org/jtk-dvlp/cljs-workers)
 [![cljdoc badge](https://cljdoc.org/badge/jtk-dvlp/cljs-workers)](https://cljdoc.org/d/jtk-dvlp/cljs-workers/CURRENT)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/jtkDvlp/cljs-workers/blob/master/LICENSE)
+[![paypal](https://www.paypalobjects.com/en_US/i/btn/btn_donate_SM.gif)](https://www.paypal.com/donate?hosted_button_id=2PDXQMHX56T6U)
 
 # Web workers for clojurescript
 
