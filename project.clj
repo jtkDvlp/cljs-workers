@@ -1,4 +1,4 @@
-(defproject jtk-dvlp/cljs-workers "1.1.2"
+(defproject jtk-dvlp/cljs-workers "1.2.0-SNAPSHOT"
   :description
   "A clojurescript lib for performing async tasks via web workers"
 
@@ -14,43 +14,31 @@
   :source-paths
   ["src"]
 
-  :clean-targets
-  ^{:protect false}
-  ["resources/public/js"
-   "target"]
+  :resource-paths
+  ["target/main" "target/worker"]
 
   :plugins
-  [[lein-cljsbuild "1.1.4" :exclusions [[org.clojure/clojure]]]
-   [lein-figwheel "0.5.0-1"]]
+  [[lein-ancient "0.7.0"]]
 
   :profiles
   {:provided
    {:dependencies
-    [[org.clojure/clojure "1.8.0"]
-     [org.clojure/clojurescript "1.9.229"]]}
+    [[org.clojure/clojure "1.10.0"]
+     [org.clojure/clojurescript "1.10.773"]
+     [org.clojure/core.async "1.6.681"]]}
 
    :dev
    {:dependencies
-    [[figwheel-sidecar "0.5.8"]
-     [com.cemerick/piggieback "0.2.1"]]}}
+    [[com.bhauman/figwheel-main "0.2.12"]]}
 
-  :repl-options
-  {:nrepl-middleware
-   [cemerick.piggieback/wrap-cljs-repl]}
+   :repl
+   {:dependencies
+    [[cider/piggieback "0.5.0"]]
 
-  :cljsbuild
-  {:builds
-   [{:id "test"
-     :source-paths ["src" "test"]
-     :figwheel true
-     :compiler {:main cljs-workers.test
-                :asset-path "js/test/out"
-                :output-to "resources/public/js/test/test.js"
-                :output-dir "resources/public/js/test/out" }}
-    {:id "worker"
-     :source-paths ["src" "test"]
-     :compiler {:main cljs-workers.test
-                :asset-path "js/worker/out"
-                :output-to "resources/public/js/worker/worker.js"
-                :output-dir "resources/public/js/worker/out"
-                :optimizations :advanced}}]})
+    :repl-options
+    {:nrepl-middleware
+     [cider.piggieback/wrap-cljs-repl]}}}
+
+  :aliases
+  {"build-worker"
+   ["run" "-m" "figwheel.main" "-O" "advanced" "-bo" "worker"]})

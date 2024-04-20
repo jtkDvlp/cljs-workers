@@ -7,7 +7,7 @@
 (defn app
   []
   (let [worker-pool
-        (main/create-pool 2 "js/worker/worker.js")
+        (main/create-pool 2 "worker.js")
 
         print-result
         (fn [result-chan]

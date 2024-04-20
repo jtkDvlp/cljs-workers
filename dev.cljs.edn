@@ -1,0 +1,9 @@
+^{:watch-dirs ["test" "src"]}
+{:output-dir
+ "target/main/public/main/cljs-out"
+
+ :output-to
+ "target/main/public/main.js"
+
+ :main
+ cljs-workers.test}
