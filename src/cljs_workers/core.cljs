@@ -1,19 +1,24 @@
 (ns cljs-workers.core
-  (:require [cljs.core.async :refer [chan promise-chan <! >! put!]])
-  (:require-macros [cljs.core.async.macros :refer [go]]))
+  (:require
+   [cljs.core.async
+    :refer [chan promise-chan <! >! put!]
+    :as async])
+
+  (:require-macros
+   [cljs.core.async.macros :refer [go go-loop]]))
 
 (defn supported?
   []
   (-> js/self
-      .-Worker
-      undefined?
-      not))
+      (.-Worker)
+      (undefined?)
+      (not)))
 
 (defn worker?
   []
   (-> js/self
-      .-document
-      undefined?))
+      (.-document)
+      (undefined?)))
 
 (def main?
   (complement worker?))
@@ -33,18 +38,18 @@
    (let [workers (chan count)]
      (dotimes [_ count]
        (put! workers (create-one script)))
-     workers)))
+     {:workers workers, :count count})))
 
 (defn- do-request!
   [worker {:keys [handler arguments transfer] :as request}]
   (let [message
         (-> {:handler handler, :arguments arguments}
-            clj->js)
+            (clj->js))
 
         transfer
         (->> transfer
              (select-keys arguments)
-             vals)]
+             (vals))]
 
     (if (seq transfer)
       (.postMessage worker message (clj->js transfer))
@@ -75,18 +80,50 @@
 
 (defn do-with-pool!
   [pool {:keys [handler arguments transfer] :as request}]
+  ;; WATCHOUT: We want an promise-chan!
   (let [result* (promise-chan)]
     (go
-      (let [worker
-            (<! pool)
+      (let [{:keys [workers]}
+            pool
 
-            result-chan
-            (do-with-worker! worker request)
+            worker
+            (<! workers)
 
             result
-            (<! result-chan)]
+            (<! (do-with-worker! worker request))]
 
-        (>! pool worker)
+        (>! workers worker)
         (>! result* result)))
+
+    result*))
+
+(defn- take!
+  [n ch]
+  (go-loop [n n, xs []]
+    (if (> n 0)
+      (recur
+       (dec n)
+       (conj xs (<! ch)))
+      xs)))
+
+(defn do-for-pool!
+  [pool {:keys [handler arguments transfer] :as request}]
+  ;; WATCHOUT: We want an promise-chan!
+  (let [result* (promise-chan)]
+    (go
+      (let [{:keys [workers count]}
+            pool
+
+            all-workers
+            (<! (take! count workers))
+
+            results
+            (->> all-workers
+                 (map #(do-with-worker! % request))
+                 (async/map vector)
+                 (<!))]
+
+        (async/onto-chan! workers all-workers false)
+        (>! result* results)))
 
     result*))
