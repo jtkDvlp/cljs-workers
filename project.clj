@@ -1,4 +1,4 @@
-(defproject jtk-dvlp/cljs-workers "1.2.0-beta"
+(defproject jtk-dvlp/cljs-workers "1.2.0"
   :description
   "A clojurescript lib for performing async tasks via web workers"
 
